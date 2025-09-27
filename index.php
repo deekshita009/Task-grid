@@ -308,8 +308,30 @@
             <div class="custom-tabs">
                 <ul class="nav nav-tabs" role="tablist"> <!-- Center the main tabs -->
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" data-bs-toggle="tab" id="family-main-tab" href="#family" role="tab" aria-selected="true">
-                            <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i> Family</span>
+                        <a class="nav-link active" data-bs-toggle="tab" id="family-main-tab" href="dashboard.php" role="tab" aria-selected="true">
+                            <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i> DashBoard</span>
+                        </a>
+                        
+                    </li>
+                    <li>
+                        <a class="nav-link " data-bs-toggle="tab" id="family-main-tab" href="#family" role="tab" aria-selected="true">
+                            <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i> Assign by me</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a class="nav-link " data-bs-toggle="tab" id="family-main-tab" href="#family" role="tab" aria-selected="true">
+                            <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i> Assign to SomeOne</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link " data-bs-toggle="tab" id="family-main-tab" href="#family" role="tab" aria-selected="true">
+                            <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i> Meeting</span>
+                        </a>
+                    </li>
+                     <li>
+                        <a class="nav-link" data-bs-toggle="tab" id="family-main-tab" href="#family" role="tab" aria-selected="true">
+                            <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i> Report and Analysis</span>
                         </a>
                     </li>
                 </ul>
@@ -321,6 +343,7 @@
                                     Family
                                 </a>
                             </li>
+                            
 
                         </ul>
                         <div class="tab-content">
