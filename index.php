@@ -316,6 +316,14 @@
                 </a>
             </li>
             <li class="nav-item" role="presentation">
+                <a class="nav-link" id="personal-tab" data-bs-toggle="tab" href="#personal" role="tab"
+                   aria-controls="personal" aria-selected="false">
+                    <span class="hidden-xs-down" style="font-size: 0.9em;">
+                        <i class="fas fa-book tab-icon"></i> Personal ToDo
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
                 <a class="nav-link" id="assignedtome-tab" data-bs-toggle="tab" href="#assignedtome" role="tab"
                    aria-controls="assignedtome" aria-selected="false">
                     <span class="hidden-xs-down" style="font-size: 0.9em;">
@@ -353,6 +361,11 @@
             <!-- Dashboard -->
             <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
                 <?php include "ui/dashboard.php"; ?>
+            </div>
+
+           <!-- Personal-->
+            <div class="tab-pane fade" id="personal" role="tabpanel" aria-labelledby="personal-tab">
+                <?php include "ui/personalToDo.php"; ?>
             </div>
 
             <!-- Assign by Me -->
@@ -476,6 +489,7 @@
                 mobileOverlay.classList.remove('show');
                 body.classList.remove('sidebar-open');
             } else {
+
                 sidebar.style.transform = '';
                 mobileOverlay.classList.remove('show');
                 body.classList.remove('sidebar-open');
