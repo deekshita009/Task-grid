@@ -144,7 +144,7 @@
 
         <!-- Faculty Demerits Table -->
         <div class="mt-4">
-            <h5 class="fw-bold mb-3">⚠️ Faculty Demerit Summary</h5>
+            <h5 class="fw-bold mb-3">⚠ Faculty Demerit Summary</h5>
             <div class="table-responsive">
                 <table id="demeritTable" class="table table-bordered table-striped text-center align-middle">
                     <thead>

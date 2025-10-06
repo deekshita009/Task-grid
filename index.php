@@ -305,57 +305,57 @@
 
         <!-- Content Area -->
         <div class="container-fluid">
-            <div class="custom-tabs">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab"
-                            aria-controls="dashboard" aria-selected="true">
-                            <span class="hidden-xs-down" style="font-size: 0.9em;">
-                                <i class="fas fa-book tab-icon"></i> Dashboard
-                            </span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="personal-tab" data-bs-toggle="tab" href="#personal" role="tab"
-                            aria-controls="personal" aria-selected="false">
-                            <span class="hidden-xs-down" style="font-size: 0.9em;">
-                                <i class="fas fa-book tab-icon"></i> Personal ToDo
-                            </span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="assignedtome-tab" data-bs-toggle="tab" href="#assignedtome" role="tab"
-                            aria-controls="assignedtome" aria-selected="false">
-                            <span class="hidden-xs-down" style="font-size: 0.9em;">
-                                <i class="fas fa-book tab-icon"></i> Assign by Me
-                            </span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="assigning-tab" data-bs-toggle="tab" href="#assigning" role="tab"
-                            aria-controls="assigning" aria-selected="false">
-                            <span class="hidden-xs-down" style="font-size: 0.9em;">
-                                <i class="fas fa-book tab-icon"></i> Assign to Someone
-                            </span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="meeting-tab" data-bs-toggle="tab" href="#meeting" role="tab"
-                            aria-controls="meeting" aria-selected="false">
-                            <span class="hidden-xs-down" style="font-size: 0.9em;">
-                                <i class="fas fa-book tab-icon"></i> Meeting
-                            </span>
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="report-tab" data-bs-toggle="tab" href="#report" role="tab"
-                            aria-controls="report" aria-selected="false">
-                            <span class="hidden-xs-down" style="font-size: 0.9em;">
-                                <i class="fas fa-book tab-icon"></i> Report and Analysis
-                            </span>
-                        </a>
-                    </li>
-                </ul>
+    <div class="custom-tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab"
+                   aria-controls="dashboard" aria-selected="true">
+                    <span class="hidden-xs-down" style="font-size: 0.9em;">
+                        <i class="fas fa-book tab-icon"></i> Dashboard
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="personal-tab" data-bs-toggle="tab" href="#personal" role="tab"
+                   aria-controls="personal" aria-selected="false">
+                    <span class="hidden-xs-down" style="font-size: 0.9em;">
+                        <i class="fas fa-book tab-icon"></i> Personal ToDo
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="assignedtome-tab" data-bs-toggle="tab" href="#assignedtome" role="tab"
+                   aria-controls="assignedtome" aria-selected="false">
+                    <span class="hidden-xs-down" style="font-size: 0.9em;">
+                        <i class="fas fa-book tab-icon"></i> Assigned to Me
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="assigning-tab" data-bs-toggle="tab" href="#assigning" role="tab"
+                   aria-controls="assigning" aria-selected="false">
+                    <span class="hidden-xs-down" style="font-size: 0.9em;">
+                        <i class="fas fa-book tab-icon"></i> Assign to Someone
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="meeting-tab" data-bs-toggle="tab" href="#meeting" role="tab"
+                   aria-controls="meeting" aria-selected="false">
+                    <span class="hidden-xs-down" style="font-size: 0.9em;">
+                        <i class="fas fa-book tab-icon"></i> Meeting
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="report-tab" data-bs-toggle="tab" href="#report" role="tab"
+                   aria-controls="report" aria-selected="false">
+                    <span class="hidden-xs-down" style="font-size: 0.9em;">
+                        <i class="fas fa-book tab-icon"></i> Report and Analysis
+                    </span>
+                </a>
+            </li>
+        </ul>
 
                 <div class="tab-content">
                     <!-- Dashboard -->
