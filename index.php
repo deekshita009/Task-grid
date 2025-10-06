@@ -389,6 +389,10 @@
             </div>
 
         </div>
+    </div>
+</div>
+
+
         <!-- Footer -->
         <?php include 'footer.php'; ?>
     </div>
@@ -491,6 +495,31 @@
                 sidebar.style.transform = '';
                 mobileOverlay.classList.remove('show');
                 body.classList.remove('sidebar-open');
+            }
+        });
+
+        // Dynamic loading for Assign to Someone tab
+        document.addEventListener('DOMContentLoaded', function () {
+            const assigningTab = document.getElementById('assigning-tab');
+            let contentLoaded = false;
+
+            if (assigningTab) {
+                assigningTab.addEventListener('shown.bs.tab', function () {
+                    if (!contentLoaded) {
+                        const contentDiv = document.getElementById('assigning-content');
+                        contentDiv.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>';
+
+                        fetch('ui/assigningTSomeone.php')
+                            .then(response => response.text())
+                            .then(data => {
+                                contentDiv.innerHTML = data;
+                                contentLoaded = true;
+                            })
+                            .catch(error => {
+                                contentDiv.innerHTML = '<div class="alert alert-danger">Error loading content</div>';
+                          });
+                    }
+                });
             }
         });
     </script>
