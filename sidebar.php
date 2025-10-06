@@ -199,50 +199,10 @@ display: inline-block;
 </div>
 
 <script>
-        const loaderContainer = document.getElementById('loaderContainer');
-
-        function showLoader() {
-            loaderContainer.classList.add('show');
-        }
-
-        function hideLoader() {
-            loaderContainer.classList.remove('show');
-        }
-
-        //    automatic loader
-        document.addEventListener('DOMContentLoaded', function() {
-            const loaderContainer = document.getElementById('loaderContainer');
-            const contentWrapper = document.getElementById('contentWrapper');
-            let loadingTimeout;
-
-            function hideLoader() {
-                loaderContainer.classList.add('hide');
-                contentWrapper.classList.add('show');
-            }
-
-            function showError() {
-                console.error('Page load took too long or encountered an error');
-                // You can add custom error handling here
-            }
-
-            // Set a maximum loading time (10 seconds)
-            loadingTimeout = setTimeout(showError, 10000);
-
-            // Hide loader when everything is loaded
-            window.onload = function() {
-                clearTimeout(loadingTimeout);
-
-                // Add a small delay to ensure smooth transition
-                setTimeout(hideLoader, 500);
-            };
-
-            // Error handling
-            window.onerror = function(msg, url, lineNo, columnNo, error) {
-                clearTimeout(loadingTimeout);
-                showError();
-                return false;
-            };
-        });
+        // Loader logic is defined centrally in index.php. Avoid redeclaring it here.
+        // If you need to manipulate the loader from sidebar, reference it safely:
+        // const loaderContainer = document.getElementById('loaderContainer');
+        // if (loaderContainer) { loaderContainer.classList.add('show'); }
 
         document.addEventListener("DOMContentLoaded", function() {
             // Cache DOM elements
