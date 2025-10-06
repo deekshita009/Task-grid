@@ -4,17 +4,17 @@ body {
     background: var(--light-bg);
     overflow-x: hidden;
     padding-bottom: var(--footer-height);
-    position: relative;
-    
-    
+
+
+
 }
 
 .roboto-regular {
     font-family: "Roboto", serif;
     font-weight: 400;
     font-style: normal;
-  }
-  
+}
+
 .custom-tabs {
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
@@ -63,7 +63,7 @@ body {
 
 .nav-link.active {
     transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Add Bus Tab Styling */
@@ -113,8 +113,13 @@ body {
 }
 
 @keyframes bounce {
-    from { transform: translateY(0); }
-    to { transform: translateY(-2px); }
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-2px);
+    }
 }
 
 .tab-content {
@@ -123,7 +128,7 @@ body {
     background: #fff;
     border-radius: 12px;
     min-height: 200px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     position: relative;
 }
 
@@ -154,19 +159,38 @@ body {
 }
 
 @keyframes glow {
-    from { opacity: 0.6; width: 40%; }
-    to { opacity: 1; width: 55%; }
+    from {
+        opacity: 0.6;
+        width: 40%;
+    }
+
+    to {
+        opacity: 1;
+        width: 55%;
+    }
+}
+
+
+/* Backdrop should dim and blur the page; modal dialog must sit above it */
+.modal-backdrop.show {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(3px);
+     z-index: 1050 !important;
+    /* Bootstrap default backdrop z-index is 1040-1050 */
 }
 
 .modal {
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
+    z-index: 1060;
+    position: fixed;
+    display: block;
+    /* Ensure modal sits above the backdrop */
 }
 
 .modal-dialog {
-    transition: all 0.3s ease-in-out;
-    transform: scale(0.7);
-    opacity: 0;
+    z-index: 1070 !important;
+  margin: auto;
+  transition: all 0.3s ease-in-out;
+  transform: scale(0.95);
 }
 
 .modal.show .modal-dialog {
