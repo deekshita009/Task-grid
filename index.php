@@ -327,7 +327,7 @@
                 <a class="nav-link" id="assignedtome-tab" data-bs-toggle="tab" href="#assignedtome" role="tab"
                    aria-controls="assignedtome" aria-selected="false">
                     <span class="hidden-xs-down" style="font-size: 0.9em;">
-                        <i class="fas fa-book tab-icon"></i> Assign by Me
+                        <i class="fas fa-book tab-icon"></i> Assigned to Me
                     </span>
                 </a>
             </li>
