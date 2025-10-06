@@ -387,6 +387,7 @@
             <div class="tab-pane fade" id="report" role="tabpanel" aria-labelledby="report-tab">
                 <?php include "ui/report.php"; ?>
             </div>
+
         </div>
     </div>
 </div>
@@ -395,6 +396,7 @@
         <!-- Footer -->
         <?php include 'footer.php'; ?>
     </div>
+    
     <script>
         const loaderContainer = document.getElementById('loaderContainer');
 
