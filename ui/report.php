@@ -54,7 +54,7 @@
         }
 
         th {
-            background: linear-gradient(to right, #4facfe, #00f2fe);
+            background: linear-gradient(to right, rgb(28, 159, 28), rgb(1, 119, 159));
             color: white;
             text-align: center;
         }
