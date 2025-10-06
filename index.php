@@ -305,72 +305,98 @@
 
         <!-- Content Area -->
         <div class="container-fluid">
-            <div class="custom-tabs">
-                <ul class="nav nav-tabs" role="tablist"> <!-- Center the main tabs -->
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" data-bs-toggle="tab" id="dashboard" href="#dashboard" role="tab"
-                            aria-selected="true">
-                            <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i>
-                                DashBoard</span>
-                        </a>
+    <div class="custom-tabs">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab"
+                   aria-controls="dashboard" aria-selected="true">
+                    <span class="hidden-xs-down" style="font-size: 0.9em;">
+                        <i class="fas fa-book tab-icon"></i> Dashboard
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="personal-tab" data-bs-toggle="tab" href="#personal" role="tab"
+                   aria-controls="personal" aria-selected="false">
+                    <span class="hidden-xs-down" style="font-size: 0.9em;">
+                        <i class="fas fa-book tab-icon"></i> Personal ToDo
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="assignedtome-tab" data-bs-toggle="tab" href="#assignedtome" role="tab"
+                   aria-controls="assignedtome" aria-selected="false">
+                    <span class="hidden-xs-down" style="font-size: 0.9em;">
+                        <i class="fas fa-book tab-icon"></i> Assign by Me
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="assigning-tab" data-bs-toggle="tab" href="#assigning" role="tab"
+                   aria-controls="assigning" aria-selected="false">
+                    <span class="hidden-xs-down" style="font-size: 0.9em;">
+                        <i class="fas fa-book tab-icon"></i> Assign to Someone
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="meeting-tab" data-bs-toggle="tab" href="#meeting" role="tab"
+                   aria-controls="meeting" aria-selected="false">
+                    <span class="hidden-xs-down" style="font-size: 0.9em;">
+                        <i class="fas fa-book tab-icon"></i> Meeting
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="report-tab" data-bs-toggle="tab" href="#report" role="tab"
+                   aria-controls="report" aria-selected="false">
+                    <span class="hidden-xs-down" style="font-size: 0.9em;">
+                        <i class="fas fa-book tab-icon"></i> Report and Analysis
+                    </span>
+                </a>
+            </li>
+        </ul>
 
-                    </li>
-                    <li>
-                        <a class="nav-link " data-bs-toggle="tab" id="family-main-tab" href="#family" role="tab"
-                            aria-selected="true">
-                            <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i>
-                                Assign by me</span>
-                        </a>
-
-                    </li>
-                    <li>
-                        <a class="nav-link " data-bs-toggle="tab" id="family-main-tab" href="#family" role="tab"
-                            aria-selected="true">
-                            <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i>
-                                Assign to SomeOne</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link " data-bs-toggle="tab" id="family-main-tab" href="#family" role="tab"
-                            aria-selected="true">
-                            <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i>
-                                Meeting</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link" data-bs-toggle="tab" id="family-main-tab" href="#family" role="tab"
-                            aria-selected="true">
-                            <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i>
-                                Report and Analysis</span>
-                        </a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
-                        <div class="p-3">
-                            <?php include "ui/dashboard.php"; ?>
-                        </div>
-
-                        
-                        <div class="tab-content">
-                            <div class="tab-pane p-20 active" id="family" role="tabpanel">
-
-                            </div>
-
-                        </div>
-                    </div>
-
-
-
-
-
-                </div>
+        <div class="tab-content">
+            <!-- Dashboard -->
+            <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                <?php include "ui/dashboard.php"; ?>
             </div>
+
+           <!-- Personal-->
+            <div class="tab-pane fade" id="personal" role="tabpanel" aria-labelledby="personal-tab">
+                <?php include "ui/personalToDo.php"; ?>
+            </div>
+
+            <!-- Assign by Me -->
+            <div class="tab-pane fade" id="assignedtome" role="tabpanel" aria-labelledby="assignedtome-tab">
+                <?php include "ui/assigntome.php"; ?>
+            </div>
+
+            <!-- Assign to Someone -->
+            <div class="tab-pane fade" id="assigning" role="tabpanel" aria-labelledby="assigning-tab">
+                <?php include "ui/assigningTSomeone.php"; ?>
+            </div>
+
+            <!-- Meeting -->
+            <div class="tab-pane fade" id="meeting" role="tabpanel" aria-labelledby="meeting-tab">
+                <?php include "ui/meeting.php"; ?>
+            </div>
+
+            <!-- Report -->
+            <div class="tab-pane fade" id="report" role="tabpanel" aria-labelledby="report-tab">
+                <?php include "ui/report.php"; ?>
+            </div>
+
         </div>
+    </div>
+</div>
+
 
         <!-- Footer -->
         <?php include 'footer.php'; ?>
     </div>
+    
     <script>
         const loaderContainer = document.getElementById('loaderContainer');
 
@@ -384,13 +410,12 @@
 
         //    automatic loader
         document.addEventListener('DOMContentLoaded', function () {
-            const loaderContainer = document.getElementById('loaderContainer');
             const contentWrapper = document.getElementById('contentWrapper');
             let loadingTimeout;
 
-            function hideLoader() {
+            function hideLoaderLocal() {
                 loaderContainer.classList.add('hide');
-                contentWrapper.classList.add('show');
+                if (contentWrapper) contentWrapper.classList.add('show');
             }
 
             function showError() {
@@ -406,7 +431,7 @@
                 clearTimeout(loadingTimeout);
 
                 // Add a small delay to ensure smooth transition
-                setTimeout(hideLoader, 500);
+                setTimeout(hideLoaderLocal, 500);
             };
 
             // Error handling
@@ -466,18 +491,37 @@
                 mobileOverlay.classList.remove('show');
                 body.classList.remove('sidebar-open');
             } else {
+
                 sidebar.style.transform = '';
                 mobileOverlay.classList.remove('show');
                 body.classList.remove('sidebar-open');
             }
         });
 
+        // Dynamic loading for Assign to Someone tab
+        document.addEventListener('DOMContentLoaded', function () {
+            const assigningTab = document.getElementById('assigning-tab');
+            let contentLoaded = false;
 
+            if (assigningTab) {
+                assigningTab.addEventListener('shown.bs.tab', function () {
+                    if (!contentLoaded) {
+                        const contentDiv = document.getElementById('assigning-content');
+                        contentDiv.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div></div>';
 
-
-
+                        fetch('ui/assigningTSomeone.php')
+                            .then(response => response.text())
+                            .then(data => {
+                                contentDiv.innerHTML = data;
+                                contentLoaded = true;
+                            })
+                            .catch(error => {
+                                contentDiv.innerHTML = '<div class="alert alert-danger">Error loading content</div>';
+                          });
+                    }
+                });
+            }
+        });
     </script>
-
 </body>
-
 </html>
