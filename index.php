@@ -308,16 +308,40 @@
             <div class="custom-tabs">
                 <ul class="nav nav-tabs" role="tablist"> <!-- Center the main tabs -->
                     <li class="nav-item" role="presentation">
+<<<<<<< HEAD
                         <a class="nav-link active" data-bs-toggle="tab" id="family-main-tab" href="dashboard.php"
                             role="tab" aria-selected="true">
                             <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i>
                                 DashBoard</span>
+=======
+                        <a class="nav-link active" data-bs-toggle="tab" id="dashboard" href="#dashboard" role="tab"
+                            aria-selected="true">
+                            <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i>
+                                DashBoard</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a class="nav-link " data-bs-toggle="tab" id="family-main-tab" href="#family" role="tab"
+                            aria-selected="true">
+                            <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i>
+                                Assign by me</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a class="nav-link " data-bs-toggle="tab" id="family-main-tab" href="#family" role="tab"
+                            aria-selected="true">
+                            <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i>
+                                Assign to SomeOne</span>
+>>>>>>> 9750be61d147bbae3068f9a059f7f0d6ad2df4e5
                         </a>
                     </li>
                     <li>
                         <a class="nav-link " data-bs-toggle="tab" id="family-main-tab" href="#family" role="tab"
                             aria-selected="true">
                             <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i>
+<<<<<<< HEAD
                                 Assigned Tasks</span>
                         </a>
                     </li>
@@ -335,6 +359,12 @@
                         </a>
                     </li>
                     <li>
+=======
+                                Meeting</span>
+                        </a>
+                    </li>
+                    <li>
+>>>>>>> 9750be61d147bbae3068f9a059f7f0d6ad2df4e5
                         <a class="nav-link" data-bs-toggle="tab" id="family-main-tab" href="#family" role="tab"
                             aria-selected="true">
                             <span class="hidden-xs-down" style="font-size: 0.9em;"><i class="fas fa-book tab-icon"></i>
@@ -343,9 +373,21 @@
                     </li>
                 </ul>
                 <div class="tab-content">
+<<<<<<< HEAD
                     <div class="tab-pane fade show active" id="family" role="tabpanel">
                         <div class="tab-content">
                             <div class="tab-pane p-20 active" id="family" role="tabpanel">
+=======
+                    <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
+                        <div class="p-3">
+                            <?php include "ui/dashboard.php"; ?>
+                        </div>
+
+                        
+                        <div class="tab-content">
+                            <div class="tab-pane p-20 active" id="family" role="tabpanel">
+
+>>>>>>> 9750be61d147bbae3068f9a059f7f0d6ad2df4e5
                             </div>
                         </div>
                     </div>
@@ -353,6 +395,10 @@
             </div>
 
         </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9750be61d147bbae3068f9a059f7f0d6ad2df4e5
         <!-- Footer -->
         <?php include 'footer.php'; ?>
     </div>
@@ -457,6 +503,11 @@
                 body.classList.remove('sidebar-open');
             }
         });
+
+
+
+
+
     </script>
 
 </body>
