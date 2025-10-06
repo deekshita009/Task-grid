@@ -189,7 +189,7 @@ display: inline-block;
     </div>
 
     <div class="menu">
-    <a href="#" class="menu-item">
+    <a href="index.php" class="menu-item">
             <i class="fas fa-home text-primary"></i>
             <span>Dashboard</span>
         </a>
