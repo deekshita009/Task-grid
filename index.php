@@ -117,6 +117,7 @@
             border-radius: 10px;
             box-shadow: var(--card-shadow);
         }
+
         .gradient-header {
             --bs-table-bg: transparent;
             --bs-table-color: white;
@@ -161,19 +162,15 @@
                     <a class="nav-link active" data-bs-toggle="tab" href="#dash-board"><i class="fas fa-grip"></i> Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#assignedtome-table"><i class="fas fa-clipboard-check"></i> Assigned to me</a>
+                    <a class="nav-link" data-bs-toggle="tab" href="#calendar-table"><i class="fas fa-calendar-days"></i> Personal To Do</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#assignedbyme-table"><i class="fas fa-notes-medical"></i> Assigned by me</a>
+                    <a class="nav-link" data-bs-toggle="tab" href="#assignedtome-table"><i class="fas fa-clipboard-check"></i> Assigned to me</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#meeting-table"><i class="fas fa-users"></i> Meeting</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#calendar-table"><i class="fas fa-calendar-days"></i> Personal To Do</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#report-table"><i class="fas fa-flag"></i> Report & Analysis</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#report-table"><i class="fas fa-flag"></i> Report & Analysis</a>
                 </li>
             </ul>
         </div>
@@ -185,33 +182,21 @@
                     <?php include "ui/dashboard.php"; ?>
                 </div>
             </div>
-
+            <div class="tab-pane" id="calendar-table">
+                <div class="p-3">
+                    <?php include "ui/personaltodo.php"; ?>
+                </div>
+            </div>
             <div class="tab-pane fade" id="assignedtome-table">
                 <div class="p-3">
                     <?php include "table/assignedtome.php"; ?>
                 </div>
             </div>
-
-            <div class="tab-pane fade" id="assignedbyme-table">
-                <div class="p-3">
-                    <?php include "table/assignedbyme.php"; ?>
-                </div>
-            </div>
-
             <div class="tab-pane fade" id="meeting-table">
                 <div class="p-3">
                     <?php include "table/meeting.php"; ?>
                 </div>
             </div>
-
-            <!-- ✅ Fixed Calendar Tab -->
-            <div class="tab-pane" id="calendar-table">
-                <div class="p-3">
-                    <?php include "ui/personaltodo.php"; ?>
-
-                </div>
-            </div>
-
             <div class="tab-pane fade" id="report-table">
                 <div class="p-3">
                     <?php include "table/report&analysis.php"; ?>
@@ -251,9 +236,9 @@
         if (hamburger) hamburger.addEventListener('click', toggleSidebar);
         if (mobileOverlay) mobileOverlay.addEventListener('click', toggleSidebar);
 
-        document.getElementById('calendarModal').addEventListener('hidden.bs.modal', function () {
-    $('.modal-backdrop').remove();
-});
+        document.getElementById('calendarModal').addEventListener('hidden.bs.modal', function() {
+            $('.modal-backdrop').remove();
+        });
     </script>
 </body>
 
