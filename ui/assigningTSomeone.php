@@ -1,6 +1,7 @@
 <!-- Assign to Someone Tab Content -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Assign to Someone</title>
@@ -61,15 +62,13 @@
 <body>
     <div id="assign-by-me" class="container mt-4">
         <div class="assignbutton">
-            <button id="taskAddBtn" class="btn btn-primary mb-2"
-                data-bs-toggle="modal"
-                data-bs-target="#assigntomodal"
+            <button id="taskAddBtn" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#assigntomodal"
                 style="background: linear-gradient(to right, #a3c81c, #6d9409, #166f06);">
                 Assign Task
             </button>
         </div>
 
-        <?php include "tables/assignToTable.php";?>
+        <?php include "tables/assignToTable.php"; ?>
     </div>
 
     <!-- ✅ Task Assignment Modal -->
@@ -86,23 +85,27 @@
                 <div class="modal-body">
                     <form id="taskForm">
                         <div class="mb-3">
-                            <label for="assignTo" class="form-label">
-                                <i class="fas fa-user me-1"></i>Assign To
+                            <label for="assignToHOD" class="form-label">
+                                <i class="fas fa-user me-1"></i>Assign To HOD
                             </label>
-                            <select class="form-select" id="assignTo" required>
+                            <select class="form-select" id="assignToHOD" required>
+                                <option value="">-- Select HOD --</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="assignTo" class="form-label">
+                                <i class="fas fa-user me-1"></i>Assign To FACULTY
+                            </label>
+                            <select class="form-select" id="assignToFaculty" required>
                                 <option value="">-- Select Faculty --</option>
-                                <option value="Faculty 1">Faculty 1</option>
-                                <option value="Faculty 2">Faculty 2</option>
-                                <option value="Faculty 3">Faculty 3</option>
-                                <option value="Faculty 4">Faculty 4</option>
-                                <option value="Faculty 5">Faculty 5</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="taskTitle" class="form-label">
                                 <i class="fas fa-heading me-1"></i>Task Title
                             </label>
-                            <input type="text" class="form-control" id="taskTitle" placeholder="Enter task title" required>
+                            <input type="text" class="form-control" id="taskTitle" placeholder="Enter task title"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label for="taskDesc" class="form-label">
@@ -130,6 +133,46 @@
 
     <!-- ✅ Script Section -->
     <script>
+        //HOD showing code
+        $(document).ready(function () {
+            loaduser();
+            $.post('db/database.php', { action: 'hodnames' }, function (response) {
+                if (response.success) {
+                    let hodies = $('#assignToHOD');
+                    hodies.empty();
+                    hodies.append(`<option value="">-- Select HOD --</option>`);
+                    response.data.forEach(hods => {
+                        hodies.append(
+                            `<option value="${hods.user_id}">${hods.name}</option>`
+                        );
+                    });
+                } else {
+                    alert("response Fail");
+                }
+            }, 'json');
+            // FACULTY SHOWING CODE 
+            $('#assignToHOD').on('change', function() {
+                let hod_id = $(this).val();
+                let faculties = $('#assignToFaculty');
+                faculties.empty().append(`<option value="">-- Select Faculty --</option>`);
+                
+                if(hod_id) {
+                    $.post('db/database.php', { action: 'facultynames', hod_id: hod_id }, function (response) {
+                        if (response.success) {
+                            response.data.forEach(facul => {
+                                faculties.append(
+                                    `<option value="${facul.user_id}">${facul.name}</option>`
+                                );
+                            });
+                        } else {
+                            console.log('Faculty load failed:', response.message);
+                        }
+                    }, 'json');
+                }
+            });
+            
+        });
+
         document.addEventListener('DOMContentLoaded', function () {
             const modal = document.getElementById('assigntomodal');
             if (modal && modal.parentElement !== document.body) {
@@ -145,10 +188,11 @@
             }
 
             table = $('#parentTable').DataTable({
-                language: { emptyTable: "No data available in table" },
-                responsive: true,
-                pageLength: 10,
-                order: [[0, 'desc']]
+                "pageLength": '5',  // Show 10 entries by default
+                "lengthMenu": [5, 10, 25, 50], // dropdown options
+                "searching": true,  // enable search box
+                "ordering": true,   // enable sorting
+                "info": true
             });
 
             // ✅ Handle form submission
@@ -192,22 +236,15 @@
                 // Reset form
                 this.reset();
 
-                // ✅ Show success alert
-                if (typeof Swal !== 'undefined') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Task Assigned Successfully!',
-                        text: `Task "${title}" has been assigned to ${assignTo}`,
-                        timer: 3000,
-                        showConfirmButton: false,
-                        toast: true,
-                        position: 'top-end'
-                    });
-                } else {
-                    alert(`Task "${title}" assigned to ${assignTo} successfully!`);
-                }
+
+
             });
         });
+
+
+
+
     </script>
 </body>
+
 </html>
