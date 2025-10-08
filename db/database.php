@@ -32,11 +32,6 @@ switch ($action) {
     case 'delete':
         deleteUser($conn);
         break;
-
-    //This for filter HOD
-    case 'hodnames':
-        hodfilter($conn);
-        break;
     //This for Faculty filter
     case 'facultynames':
         facultyfilter($conn);
@@ -84,33 +79,17 @@ function deleteUser($conn)
 
 }
 
-//HOD Filter backend COde
 
-function hodfilter($conn)
-{
-    try {
-        $sql = "SELECT user_id, name FROM users WHERE role='HOD'";
-        $check = $conn->query($sql);
-        $hods = [];
-        if ($check->num_rows > 0) {
-            while ($row = $check->fetch_assoc()) {
-                $hods[] = $row;
-            }
-        }
-        echo json_encode(['success' => true, 'data' => $hods, 'message' => 'Fetched Successfully']);
 
-    } catch (Exception $e) {
-        echo json_encode(['success' => false, 'message' => 'Not Fetched: ' . $e->getMessage()]);
-    }
-}
+
 
 //Faculty filter code
 function facultyfilter($conn)
 {
-    $hod_id = intval($_POST['hod_id']);
-    $sql = "SELECT ddept from users where user_id=?";
+    
+    $sql = "SELECT ddept from users where ddept=?";
     $check = $conn->prepare($sql);
-    $check->bind_param('i', $hod_id);
+    $check->bind_param('s', $_POST['depart_id']);
     $check->execute();
     $st = $check->get_result();
     if ($st->num_rows == 0) {
@@ -121,7 +100,7 @@ function facultyfilter($conn)
     $dept = $fet['ddept'];
 
     // fetch faculty details
-    $sql = "SELECT user_id, name FROM users WHERE ddept=? AND role='FACULTY'"; 
+    $sql = "SELECT user_id, name FROM users WHERE ddept=?"; 
     $facultyCheck = $conn->prepare($sql);
     $facultyCheck->bind_param('s', $dept);
     $facultyCheck->execute();
@@ -136,7 +115,4 @@ function facultyfilter($conn)
     }
     echo json_encode(['success' => true, 'data' => $faculties, 'message' => 'faculty read successfully']);
 }
-
-
-
 ?>

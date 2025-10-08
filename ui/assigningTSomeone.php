@@ -86,10 +86,17 @@
                     <form id="taskForm">
                         <div class="mb-3">
                             <label for="assignToHOD" class="form-label">
-                                <i class="fas fa-user me-1"></i>Assign To HOD
+                                <i class="fas fa-user me-1"></i>Select Department
                             </label>
-                            <select class="form-select" id="assignToHOD" required>
-                                <option value="">-- Select HOD --</option>
+                            <select class="form-select" id="assignToDepartment" required>
+                                <option value="">-- Select department --</option>
+                                <option value="CSE">CSE</option>
+                                <option value="EEE">EEE</option>
+                                <option value="ECE">ECE</option>
+                                <option value="IT">IT</option>
+                                <option value="MECH">MECH</option>
+                                <option value="CIVIL">CIVIL</option>
+                                <option value="AI">AI</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -136,28 +143,15 @@
         //HOD showing code
         $(document).ready(function () {
             loaduser();
-            $.post('db/database.php', { action: 'hodnames' }, function (response) {
-                if (response.success) {
-                    let hodies = $('#assignToHOD');
-                    hodies.empty();
-                    hodies.append(`<option value="">-- Select HOD --</option>`);
-                    response.data.forEach(hods => {
-                        hodies.append(
-                            `<option value="${hods.user_id}">${hods.name}</option>`
-                        );
-                    });
-                } else {
-                    alert("response Fail");
-                }
-            }, 'json');
+            
             // FACULTY SHOWING CODE 
-            $('#assignToHOD').on('change', function() {
-                let hod_id = $(this).val();
+            $('#assignToDepartment').on('change', function() {
+                let depart_id = $(this).val();
                 let faculties = $('#assignToFaculty');
                 faculties.empty().append(`<option value="">-- Select Faculty --</option>`);
                 
-                if(hod_id) {
-                    $.post('db/database.php', { action: 'facultynames', hod_id: hod_id }, function (response) {
+                if(depart_id) {
+                    $.post('db/database.php', { action: 'facultynames', depart_id: depart_id }, function (response) {
                         if (response.success) {
                             response.data.forEach(facul => {
                                 faculties.append(
@@ -170,7 +164,7 @@
                     }, 'json');
                 }
             });
-            
+
         });
 
         document.addEventListener('DOMContentLoaded', function () {
