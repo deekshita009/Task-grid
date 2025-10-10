@@ -22,27 +22,23 @@
     "editor.suggest.showProperties": false,
     "editor.suggest.showMethods": false,
     "editor.suggest.localityBonus": false,
-    
     // PHP specific settings - DISABLED
     "php.suggest.basic": false,
     "php.completion.enabled": false,
-    
     // Intelephense settings (PHP IntelliSense) - DISABLED
     "intelephense.diagnostics.enable": false,
     "intelephense.completion.triggerParameterHints": false,
     "intelephense.completion.insertUseDeclaration": false,
     "intelephense.completion.fullyQualifyGlobalConstantsAndFunctions": false,
-    
     // HTML/CSS suggestions - DISABLED
     "html.suggest.html5": false,
     "css.completion.completePropertyWithSemicolon": false,
     "css.completion.triggerPropertyValueCompletion": false,
-    
     // Auto closing and renaming tags
     "auto-close-tag.activationOnLanguage": [
         "xml",
         "php",
-        "blade", 
+        "blade",
         "ejs",
         "jinja",
         "javascript",
@@ -60,7 +56,6 @@
         "HTML (Eex)",
         "plist"
     ],
-    
     // GitHub Copilot settings - DISABLED
     "github.copilot.enable": {
         "*": false,
@@ -73,7 +68,6 @@
         "javascript": false
     },
     "github.copilot.inlineSuggest.enable": false,
-    
     // General editor improvements
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
@@ -81,7 +75,6 @@
     "editor.autoClosingQuotes": "always",
     "editor.bracketPairColorization.enabled": true,
     "editor.guides.bracketPairs": true,
-    
     // File associations
     "files.associations": {
         "*.php": "php"
