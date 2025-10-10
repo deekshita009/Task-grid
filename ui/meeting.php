@@ -77,10 +77,6 @@
         .modal {
             z-index: 2100 !important;
         }
-
-        .thcolor {
-            background: linear-gradient(135deg, #4CAF50, #2196F3);
-        }
     </style>
 </head>
 
@@ -97,7 +93,20 @@
         </div>
 
         <!-- Table -->
-        <?php include "ui/meetingTable.php" ?>
+        <div class="table-responsive">
+            <table id="myMeetingsTable" class="table table-bordered table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Date & Time</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
 
         <!-- ✅ Add Meeting Modal -->
         <div class="modal fade" id="myAddMeetingModal" tabindex="-1" aria-labelledby="myAddMeetingModalLabel"
@@ -123,6 +132,11 @@
                                 <label class="form-label">Staff</label>
                                 <select class="form-select" name="staff" required>
                                     <option value="Everyone">Everyone</option>
+                                    <option value="John">John</option>
+                                    <option value="Priya">Priya</option>
+                                    <option value="Rahul">Rahul</option>
+                                    <option value="Meena">Meena</option>
+                                    <option value="David">David</option>
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -143,8 +157,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Schedule Meeting</button>
-
+                            <button type="submit" class="btn">Schedule Meeting</button>
                         </div>
                     </form>
                 </div>
@@ -182,8 +195,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Submit Request</button>
-
+                            <button type="submit" class="btn">Submit Request</button>
                         </div>
                     </form>
                 </div>
@@ -197,8 +209,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- ✅ DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <!-- ✅ SweetAlert2 for nicer alerts -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         $(document).ready(function () {
@@ -208,7 +218,7 @@
                 pageLength: 5,
                 language: { emptyTable: "No meetings scheduled" },
             });
-            
+
             // ✅ Show Add Meeting modal
             $('#myOpenAddBtn').on('click', function () {
                 const modalEl = $('#myAddMeetingModal')[0];
@@ -235,93 +245,29 @@
                     'Staff (' + staff + ')',
                     datetime ? new Date(datetime).toLocaleString() : '-',
                     '<span class="text-success"><i class="fas fa-check-circle"></i> Scheduled</span>',
-                    '<button class="btn btn-warning btn-sm btn-notify"><i class="fas fa-bell"></i> Notify</button>'
+                    '<button class="btn btn-warning btn-sm"><i class="fas fa-bell"></i> Notify</button>'
                 ]).draw(false);
 
                 this.reset();
                 bootstrap.Modal.getInstance($('#myAddMeetingModal')[0]).hide();
             });
 
-            // ✅ Request Meeting Form Submit (connected to backend)
+            // ✅ Request Meeting Form Submit
             $('#myRequestMeetingForm').on('submit', function (e) {
                 e.preventDefault();
-                const formData = $(this).serialize();
+                const title = $(this).find('[name="title"]').val();
+                const datetime = $(this).find('[name="datetime"]').val();
 
-                $.ajax({
-                    url: 'meetBackend/requestMeeting.php', // Adjust path based on folder
-                    type: 'POST',
-                    data: formData,
-                    success: function (response) {
-                        response = response.trim();
-                        if (response === "success") {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Request Sent!',
-                                text: 'Your meeting request has been submitted.',
-                                timer: 1800,
-                                showConfirmButton: false
-                            });
+                myTable.row.add([
+                    title,
+                    'Principal',
+                    datetime ? new Date(datetime).toLocaleString() : '-',
+                    '<span class="text-warning"><i class="fas fa-hourglass-half"></i> Pending</span>',
+                    '<span class="text-secondary">Awaiting approval</span>'
+                ]).draw(false);
 
-                            const datetime = $('[name="datetime"]').val();
-
-                            // Add to table instantly
-                            myTable.row.add([
-                                'Meeting Request', // Since title cannot be stored
-                                'Principal',
-                                datetime ? new Date(datetime).toLocaleString() : '-',
-                                '<span class="text-warning"><i class="fas fa-hourglass-half"></i> Pending</span>',
-                                '<span class="text-secondary">Awaiting approval</span>'
-                            ]).draw(false);
-
-                            $('#myRequestMeetingForm')[0].reset();
-                            bootstrap.Modal.getInstance($('#myRequestMeetingModal')[0]).hide();
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops!',
-                                html: 'Something went wrong.<br>' + response
-                            });
-                        }
-                    },
-                    error: function () {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Server Error',
-                            text: 'Could not connect to the server.'
-                        });
-                    }
-                });
-            });
-
-
-
-            // ✅ Delegated handler for Notify button (uses SweetAlert2)
-            $(document).on('click', '.btn-notify', function (e) {
-                e.preventDefault();
-                const $btn = $(this);
-                Swal.fire({
-                    title: 'Send notification?',
-                    text: 'This will notify selected staff about the meeting.',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, notify',
-                    cancelButtonText: 'Cancel',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Simulate an action (AJAX can be added here)
-                        Swal.fire({
-                            toast: true,
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Notified successfully',
-                            showConfirmButton: false,
-                            timer: 1600
-                        });
-                        // update button state
-                        $btn.removeClass('btn-warning').addClass('btn-success').html('<i class="fas fa-bell"></i> Notified').prop('disabled', true);
-                    }
-                });
+                this.reset();
+                bootstrap.Modal.getInstance($('#myRequestMeetingModal')[0]).hide();
             });
         });
     </script>
