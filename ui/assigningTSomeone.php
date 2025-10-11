@@ -22,14 +22,14 @@
     <link rel="stylesheet" href="style/assigningTsomeone.css">
 
     <style>
-        .assignto  {
+        .assignto {
             --bs-table-bg: transparent;
             --bs-table-color: white;
             background: linear-gradient(135deg, #4CAF50, #2196F3) !important;
-           color: inherit;
-           text-align:centre;
-           font-size:0.9em;
-           font-weight:600;
+            color: inherit;
+            text-align: centre;
+            font-size: 0.9em;
+            font-weight: 600;
         }
 
         .modal-header {
@@ -64,8 +64,10 @@
 
 <body>
     <div id="assign-by-me" class="container mt-4">
-        <div class="assignbutton"style="display:flex;felx-direction:column;justify-content:flex-end;align-item:end;text-align:end;">
-            <button id="taskAddBtn" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#assigntomodal"
+        <div class="assignbutton"
+            style="display:flex;felx-direction:column;justify-content:flex-end;align-item:end;text-align:end;">
+            <button id="taskAddBtn" class="btn btn-secondary mb-2" data-bs-toggle="modal"
+                data-bs-target="#assigntomodal"
                 style="display:flex;felx-direction:column;align-item:end;text-align:end;">
                 Assign Task
             </button>
@@ -175,7 +177,7 @@
         //create user functionality
         let createuser = () => {
             let data = {
-                assigned_by: $('#assignToFaculty').val(),
+                assigned_by: window.editingTaskId ? window.currentAssignedBy : $('#assignToFaculty').val(),
                 task_title: $('#some').val(),
                 task_description: $('#taskDesc').val(),
                 start_date: $('#startdate').val(),
@@ -186,7 +188,8 @@
 
             if (window.editingTaskId) {
                 data.task_id = window.editingTaskId;
-                window.editingTaskId = null; 
+                window.editingTaskId = null;
+                window.currentAssignedBy = null;
             }
             console.log('Form data:', data);
             $.post('db/database.php', data, function (response) {
@@ -213,7 +216,6 @@
                     }, 400);
                     loaduser();
                     $('#taskForm')[0].reset();
-
                 } else {
                     alert('Failed to create task: ' + response.message);
                 }
@@ -238,10 +240,9 @@
                 "ordering": false,   // enable sorting
                 "info": true
             });
-            // Reset form
+           
             this.reset();
         });
-
     </script>
 </body>
 
