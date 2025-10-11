@@ -34,8 +34,12 @@
             background: linear-gradient(to right, #ff9966, #ff5e62);
         }
 
-        .bg-delayed {
-            background: linear-gradient(to right, #e52d27, #b31217);
+        .bg-in-progress {
+            background: linear-gradient(to right, #9366fc, #d7adff);
+        }
+
+        .bg-overdue {
+            background: linear-gradient(to right, #f7706b, #eb151c);
         }
 
         .chart-container {
@@ -46,18 +50,23 @@
             margin-top: 20px;
         }
 
-        table {
+        #demeritTable {
             background: white;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
 
-        th {
-            background: linear-gradient(to right, rgb(28, 159, 28), rgb(1, 119, 159));
-            color: white;
-            text-align: center;
+       .demerit  {
+            --bs-table-bg: transparent;
+            --bs-table-color: white;
+            background: linear-gradient(135deg, #4CAF50, #2196F3) !important;
+           color: inherit;
+           text-align:centre;
+           font-size:0.9em;
+           font-weight:600;
         }
+
     </style>
 </head>
 
@@ -89,45 +98,57 @@
             <div class="col-md-3">
                 <div class="summary-card bg-total">
                     <h5>Total Tasks</h5>
-                    <h2 id="totalTasks">125</h2>
+                    <h2 id="totalTasks">0</h2>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="summary-card bg-completed">
                     <h5>Completed Tasks</h5>
-                    <h2 id="completedTasks">92</h2>
+                    <h2 id="completedTasks">0</h2>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="summary-card bg-pending">
                     <h5>Pending Tasks</h5>
-                    <h2 id="pendingTasks">21</h2>
+                    <h2 id="pendingTasks">0</h2>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="summary-card bg-delayed">
-                    <h5>Delayed Tasks</h5>
-                    <h2 id="delayedTasks">12</h2>
+                <div class="summary-card bg-in-progress">
+                    <h5>In-Progress</h5>
+                    <h2 id="in-progressTasks">0</h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="summary-card bg-overdue">
+                    <h5>Overdue</h5>
+                    <h2 id="overdueTasks">0</h2>
                 </div>
             </div>
         </div>
 
-        <!-- Charts Row -->
-        <div class="row mt-4">
-            <div class="col-md-6">
-                <div class="chart-container">
-                    <h5 class="text-center mb-3 fw-semibold">Task Completion Rate by Faculty</h5>
-                    <canvas id="completionChart"></canvas>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="chart-container">
-                    <h5 class="text-center mb-3 fw-semibold">Delay Analysis</h5>
-                    <canvas id="delayChart"></canvas>
-                </div>
+        <!-- Faculty Demerits Table -->
+        <div class="mt-4">
+            <h5 class="fw-bold mb-3">⚠ Faculty Demerit Summary</h5>
+            <div class="table-responsive">
+                <table id="demeritTable" class="table table-bordered table-striped table-hover">
+                    <thead  >
+                        <tr class="demerit">
+                            <th>Faculty Name</th>
+                            <th>Pending Tasks</th>
+                            <th>Delayed Submissions</th>
+                            <th>Missed Deadlines</th>
+                            <th>Total Demerit Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data loaded dynamically -->
+                    </tbody>
+                </table>
             </div>
         </div>
 
+        <!-- Charts -->
         <div class="row mt-4">
             <div class="col-md-12">
                 <div class="chart-container">
@@ -137,57 +158,19 @@
             </div>
         </div>
 
-        <!-- Insights Section -->
-        <div class="alert alert-info mt-4">
-            <strong>Insight:</strong> Top Performer — <b>Ms. Priya</b> with 98% completion rate. Department overall performance is <b>88%</b>.
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h5 class="text-center mb-3 fw-semibold">Task Completion Rate by Faculty</h5>
+                    <canvas id="completionChart"></canvas>
+                </div>
+            </div>
         </div>
 
-        <!-- Faculty Demerits Table -->
-        <div class="mt-4">
-            <h5 class="fw-bold mb-3">⚠ Faculty Demerit Summary</h5>
-            <div class="table-responsive">
-                <table id="demeritTable" class="table table-bordered table-striped text-center align-middle">
-                    <thead>
-                        <tr>
-                            <th>Faculty Name</th>
-                            <th>Pending Tasks</th>
-                            <th>Delayed Submissions</th>
-                            <th>Missed Deadlines</th>
-                            <th>Total Demerit Points</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Dr. R. Meenakshi</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>Mr. A. Karthik</td>
-                            <td>4</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>7</td>
-                        </tr>
-                        <tr>
-                            <td>Ms. S. Priya</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>Mr. P. Aravind</td>
-                            <td>3</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>5</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <!-- Insights -->
+        <div class="alert alert-info mt-4">
+            <strong>Insight:</strong> Top Performer — <b id="topPerformer">-</b> with <b id="topCompletion">0%</b> completion rate.
+            Department overall performance is <b id="overallPerformance">0%</b>.
         </div>
 
         <!-- Export Buttons -->
@@ -197,6 +180,7 @@
         </div>
     </div>
 
+    <!-- JS Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
@@ -204,68 +188,144 @@
 
     <script>
         $(document).ready(function () {
-            // Initialize DataTable for demerits
-            $('#demeritTable').DataTable({
+            let completionChartObj, delayChartObj, trendChartObj;
+            const demeritTable = $('#demeritTable').DataTable({
                 pageLength: 5,
                 lengthChange: false
             });
-
-            // Completion Chart
-            new Chart(document.getElementById("completionChart"), {
-                type: "bar",
-                data: {
-                    labels: ["Dr. Meenakshi", "A. Karthik", "S. Priya", "P. Aravind"],
-                    datasets: [{
-                        label: "Completion %",
-                        data: [95, 80, 98, 85],
-                        backgroundColor: ["#6a11cb", "#2575fc", "#00b09b", "#ff9966"]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: { y: { beginAtZero: true, max: 100 } }
-                }
-            });
-
-            // Delay Chart
-            new Chart(document.getElementById("delayChart"), {
-                type: "pie",
-                data: {
-                    labels: ["On Time", "Slight Delay", "Major Delay"],
-                    datasets: [{
-                        data: [70, 20, 10],
-                        backgroundColor: ["#00b09b", "#ffcc00", "#e52d27"]
-                    }]
-                },
-                options: { responsive: true }
-            });
-
-            // Trend Chart
-            new Chart(document.getElementById("trendChart"), {
-                type: "line",
-                data: {
-                    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep"],
-                    datasets: [{
-                        label: "Completion Rate %",
-                        data: [75, 80, 85, 88, 92, 95],
-                        borderColor: "#4facfe",
-                        backgroundColor: "rgba(79,172,254,0.2)",
-                        fill: true,
-                        tension: 0.3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: { y: { beginAtZero: true, max: 100 } }
-                }
-            });
-
-            // Apply Filter button (placeholder for future integration)
+        
+            function loadReportData(faculty = '', month = '') {
+                $.ajax({
+                    url: 'db/reportbackend.php',
+                    type: 'GET',
+                    data: { faculty: faculty, month: month },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log("Backend Data:", data);
+        
+                        if (!data || !data.summary) {
+                            alert("No data received from backend.");
+                            return;
+                        }
+        
+                        const s = data.summary || {};
+        
+                        // Summary Cards
+                        $('#totalTasks').text(s.total_tasks ?? 0);
+                        $('#completedTasks').text(s.completed ?? 0);
+                        $('#pendingTasks').text(s.pending ?? 0);
+                        $('#in-progressTasks').text(s.in_progress ?? 0);
+                        $('#overdueTasks').text(s.overdue ?? 0);
+        
+                        // Overall Performance
+                        const completed = Number(s.completed ?? 0);
+                        const total = Number(s.total_tasks ?? 0);
+                        const overallPerf = total > 0 ? ((completed / total) * 100).toFixed(2) : '0.00';
+                        $('#overallPerformance').text(overallPerf + '%');
+        
+                        // Faculty Completion Chart
+                        const facultyArr = Array.isArray(data.faculty) ? data.faculty : [];
+                        const facultyNames = facultyArr.map(f => f.faculty_name || 'Unknown');
+                        const completionRates = facultyArr.map(f => Number(f.completion_percentage ?? 0));
+        
+                        let topPerformerName = '-';
+                        let topRate = 0;
+                        if (completionRates.length > 0) {
+                            const maxVal = Math.max(...completionRates);
+                            const idx = completionRates.indexOf(maxVal);
+                            topPerformerName = facultyNames[idx] || '-';
+                            topRate = isFinite(maxVal) ? maxVal : 0;
+                        }
+                        $('#topPerformer').text(topPerformerName);
+                        $('#topCompletion').text(topRate + '%');
+        
+                        if (completionChartObj) completionChartObj.destroy();
+                        const ctxComp = document.getElementById('completionChart');
+                        completionChartObj = new Chart(ctxComp, {
+                            type: 'bar',
+                            data: {
+                                labels: facultyNames,
+                                datasets: [{
+                                    label: 'Completion %',
+                                    data: completionRates,
+                                    backgroundColor: facultyNames.map((_, i) => ['#6a11cb', '#2575fc', '#00b09b', '#ff9966'][i % 4])
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: { y: { beginAtZero: true, max: 100 } }
+                            }
+                        });
+        
+                
+        
+                        // Trend Chart (Past 6 Months)
+                        const trendArr = Array.isArray(data.trend) && data.trend.length ? data.trend : [];
+                        const Labels = trendArr.map(item => item.month);
+                        const Values = trendArr.map(item => parseInt(item.completed_count));
+        
+                        if (trendChartObj) trendChartObj.destroy();
+                        const ctxTrend = document.getElementById('trendChart');
+                        trendChartObj = new Chart(ctxTrend, {
+                            type: 'line',
+                            data: {
+                                labels: Labels,
+                                datasets: [{
+                                    label: 'Completed Tasks',
+                                    data: Values,
+                                    borderColor: '#2575fc',
+                                    backgroundColor: 'rgba(37,117,252,0.3)',
+                                    fill: true,
+                                    tension: 0.3,
+                                    pointRadius: 5
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: { beginAtZero: true, title: { display: true, text: 'Completed Tasks' } },
+                                    x: { title: { display: true, text: 'Month' } }
+                                }
+                            }
+                        });
+        
+                        // Demerits Table
+                        demeritTable.clear();
+                        const demerits = Array.isArray(data.demerits) ? data.demerits : [];
+                        if (demerits.length > 0) {
+                            demerits.forEach(d => {
+                                demeritTable.row.add([
+                                    d.faculty_name ?? '-',
+                                    d.pending_tasks ?? 0,
+                                    d.delayed_submissions ?? 0,
+                                    d.missed_deadlines ?? 0,
+                                    d.total_demerit_points ?? 0
+                                ]);
+                            });
+                        } else {
+                            demeritTable.row.add(['No data', '-', '-', '-', '-']);
+                        }
+                        demeritTable.draw();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('❌ AJAX Error:', error);
+                        console.log(xhr.responseText);
+                        alert("Failed to fetch data from backend.");
+                    }
+                });
+            }
+        
+            // Initial Load
+            loadReportData();
+        
+            // Filter button
             $('#applyFilter').click(function () {
-                alert('Filter applied! Integrate with backend to update charts and table.');
+                const faculty = $('#facultyFilter').val();
+                const month = $('#monthFilter').val();
+                loadReportData(faculty, month);
             });
         });
-    </script>
+        </script>
+        
 </body>
-
 </html>

@@ -4,15 +4,12 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 
-
-
 $host = 'localhost';
 $username = 'root';
 $password = "";
 $dbname = 'task_grid';
 
 $conn = new mysqli($host, $username, $password, $dbname);
-
 if ($conn->connect_error) {
     echo json_encode(['error' => 'Database Connection Failed']);
     exit();
@@ -32,11 +29,6 @@ switch ($action) {
     case 'delete':
         deleteUser($conn);
         break;
-
-    //This for filter HOD
-    case 'hodnames':
-        hodfilter($conn);
-        break;
     //This for Faculty filter
     case 'facultynames':
         facultyfilter($conn);
@@ -50,7 +42,17 @@ switch ($action) {
 function readUsers($conn)
 {
     try {
-        $sql = "SELECT * FROM tasks ORDER BY task_id";
+        $sql = "
+        SELECT t.task_id,
+         t.task_title,
+          t.task_description, 
+          t.start_date,
+           t.deadline, 
+           t.status, 
+           u.name  FROM tasks 
+           t LEFT JOIN users u 
+           ON t.assigned_by = u.user_id ORDER BY t.task_id
+        ";
         $result = $conn->query($sql);
         $users = [];
         if ($result->num_rows > 0) {
@@ -84,33 +86,17 @@ function deleteUser($conn)
 
 }
 
-//HOD Filter backend COde
 
-function hodfilter($conn)
-{
-    try {
-        $sql = "SELECT user_id, name FROM users WHERE role='HOD'";
-        $check = $conn->query($sql);
-        $hods = [];
-        if ($check->num_rows > 0) {
-            while ($row = $check->fetch_assoc()) {
-                $hods[] = $row;
-            }
-        }
-        echo json_encode(['success' => true, 'data' => $hods, 'message' => 'Fetched Successfully']);
 
-    } catch (Exception $e) {
-        echo json_encode(['success' => false, 'message' => 'Not Fetched: ' . $e->getMessage()]);
-    }
-}
+
 
 //Faculty filter code
 function facultyfilter($conn)
 {
-    $hod_id = intval($_POST['hod_id']);
-    $sql = "SELECT ddept from users where user_id=?";
+
+    $sql = "SELECT ddept from users where ddept=?";
     $check = $conn->prepare($sql);
-    $check->bind_param('i', $hod_id);
+    $check->bind_param('s', $_POST['depart_id']);
     $check->execute();
     $st = $check->get_result();
     if ($st->num_rows == 0) {
@@ -121,7 +107,7 @@ function facultyfilter($conn)
     $dept = $fet['ddept'];
 
     // fetch faculty details
-    $sql = "SELECT user_id, name FROM users WHERE ddept=? AND role='FACULTY'"; 
+    $sql = "SELECT user_id, name FROM users WHERE ddept=?";
     $facultyCheck = $conn->prepare($sql);
     $facultyCheck->bind_param('s', $dept);
     $facultyCheck->execute();
@@ -137,6 +123,40 @@ function facultyfilter($conn)
     echo json_encode(['success' => true, 'data' => $faculties, 'message' => 'faculty read successfully']);
 }
 
+// Create task
+function createUser($conn)
+{
+    //user name 
 
+    $sql = "INSERT INTO tasks (assigned_by,task_title,task_description,start_date,deadline,status) values(?,?,?,?,?,?)";
+    $check = $conn->prepare($sql);
+    $check->bind_param('ssssss', $_POST['assigned_by'], $_POST['task_title'], $_POST['task_description'], $_POST['start_date'], $_POST['deadline'], $_POST['status']);
+    if ($check->execute()) {
+        $task_id = $conn->insert_id;
+        $asssql = "INSERT INTO taskassignment (task_id,assigned_to,parent_assig_id,status,updated_at) values(?,?,?,?,NOW())";
+        $checkassql = $conn->prepare($asssql);
+        $parent = null;
+        $checkassql->bind_param('isis', $task_id, $_POST['assigned_by'], $parent, $_POST['status']);
+        if ($checkassql->execute()) {
+            echo json_encode(['success' => true, 'message' => 'Created Successfully']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Task created but assignment failed: ' . $checkassql->error]);
+        }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'not Created']);
+    }
+}
 
+//Update function
+function updateUser($conn)
+{
+    $sql = "UPDATE tasks SET assigned_by=?, task_title=?, task_description=?, start_date=?, deadline=?, status=? WHERE task_id=?";
+    $check = $conn->prepare($sql);
+    $check->bind_param('ssssssi', $_POST['assigned_by'], $_POST['task_title'], $_POST['task_description'], $_POST['start_date'], $_POST['deadline'], $_POST['status'], $_POST['task_id']);
+    if ($check->execute()) {
+        echo json_encode(['success' => true, 'message' => 'Updated Successfully']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Update Failed']);
+    }
+}
 ?>

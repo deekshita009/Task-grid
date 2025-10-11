@@ -22,11 +22,14 @@
     <link rel="stylesheet" href="style/assigningTsomeone.css">
 
     <style>
-        .gradient-header {
+        .assignto  {
+            --bs-table-bg: transparent;
+            --bs-table-color: white;
             background: linear-gradient(135deg, #4CAF50, #2196F3) !important;
-            color: white !important;
-            text-align: center;
-            font-size: 0.9em;
+           color: inherit;
+           text-align:centre;
+           font-size:0.9em;
+           font-weight:600;
         }
 
         .modal-header {
@@ -61,9 +64,9 @@
 
 <body>
     <div id="assign-by-me" class="container mt-4">
-        <div class="assignbutton">
-            <button id="taskAddBtn" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#assigntomodal"
-                style="background: linear-gradient(to right, #a3c81c, #6d9409, #166f06);">
+        <div class="assignbutton"style="display:flex;felx-direction:column;justify-content:flex-end;align-item:end;text-align:end;">
+            <button id="taskAddBtn" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#assigntomodal"
+                style="display:flex;felx-direction:column;align-item:end;text-align:end;">
                 Assign Task
             </button>
         </div>
@@ -86,10 +89,17 @@
                     <form id="taskForm">
                         <div class="mb-3">
                             <label for="assignToHOD" class="form-label">
-                                <i class="fas fa-user me-1"></i>Assign To HOD
+                                <i class="fas fa-user me-1"></i>Select Department
                             </label>
-                            <select class="form-select" id="assignToHOD" required>
-                                <option value="">-- Select HOD --</option>
+                            <select class="form-select" id="assignToDepartment" required>
+                                <option value="">-- Select department --</option>
+                                <option value="CSE">CSE</option>
+                                <option value="EEE">EEE</option>
+                                <option value="ECE">ECE</option>
+                                <option value="IT">IT</option>
+                                <option value="MECH">MECH</option>
+                                <option value="CIVIL">CIVIL</option>
+                                <option value="AI">AI</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -104,15 +114,20 @@
                             <label for="taskTitle" class="form-label">
                                 <i class="fas fa-heading me-1"></i>Task Title
                             </label>
-                            <input type="text" class="form-control" id="taskTitle" placeholder="Enter task title"
-                                required>
+                            <input type="text" class="form-control" id="some" placeholder="Enter task title" required>
                         </div>
                         <div class="mb-3">
-                            <label for="taskDesc" class="form-label">
+                            <label for="taskDesc" class="form-label" id="taskdescrip">
                                 <i class="fas fa-align-left me-1"></i>Task Description
                             </label>
                             <textarea class="form-control" id="taskDesc" rows="3" placeholder="Enter task description"
                                 required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="startdate" class="form-label">
+                                <i class="fas fa-calendar me-1"></i>StartDate
+                            </label>
+                            <input type="date" class="form-control" id="startdate" required>
                         </div>
                         <div class="mb-3">
                             <label for="deadline" class="form-label">
@@ -121,7 +136,7 @@
                             <input type="date" class="form-control" id="deadline" required>
                         </div>
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-success">
+                            <button type="button" class="btn btn-success" onclick="createuser()">
                                 <i class="fas fa-check me-2"></i>Assign Task
                             </button>
                         </div>
@@ -133,31 +148,16 @@
 
     <!-- ✅ Script Section -->
     <script>
-        //HOD showing code
         $(document).ready(function () {
             loaduser();
-            $.post('db/database.php', { action: 'hodnames' }, function (response) {
-                if (response.success) {
-                    let hodies = $('#assignToHOD');
-                    hodies.empty();
-                    hodies.append(`<option value="">-- Select HOD --</option>`);
-                    response.data.forEach(hods => {
-                        hodies.append(
-                            `<option value="${hods.user_id}">${hods.name}</option>`
-                        );
-                    });
-                } else {
-                    alert("response Fail");
-                }
-            }, 'json');
             // FACULTY SHOWING CODE 
-            $('#assignToHOD').on('change', function() {
-                let hod_id = $(this).val();
+            $('#assignToDepartment').on('change', function () {
+                let depart_id = $(this).val();
                 let faculties = $('#assignToFaculty');
                 faculties.empty().append(`<option value="">-- Select Faculty --</option>`);
-                
-                if(hod_id) {
-                    $.post('db/database.php', { action: 'facultynames', hod_id: hod_id }, function (response) {
+
+                if (depart_id) {
+                    $.post('db/database.php', { action: 'facultynames', depart_id: depart_id }, function (response) {
                         if (response.success) {
                             response.data.forEach(facul => {
                                 faculties.append(
@@ -170,79 +170,77 @@
                     }, 'json');
                 }
             });
-            
         });
 
+        //create user functionality
+        let createuser = () => {
+            let data = {
+                assigned_by: $('#assignToFaculty').val(),
+                task_title: $('#some').val(),
+                task_description: $('#taskDesc').val(),
+                start_date: $('#startdate').val(),
+                deadline: $('#deadline').val(),
+                status: 'pending',
+                action: window.editingTaskId ? 'update' : 'create'
+            };
+
+            if (window.editingTaskId) {
+                data.task_id = window.editingTaskId;
+                window.editingTaskId = null; 
+            }
+            console.log('Form data:', data);
+            $.post('db/database.php', data, function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Your work has been saved",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    // Below code for hide the modal properly
+                    const modalElement = document.getElementById('assigntomodal');
+                    let bootstrapModal = bootstrap.Modal.getInstance(modalElement);
+                    if (!bootstrapModal) {
+                        bootstrapModal = new bootstrap.Modal(modalElement);
+                    }
+                    bootstrapModal.hide();
+                    setTimeout(() => {
+                        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = 'auto';
+                        document.body.style.paddingRight = '0';
+                    }, 400);
+                    loaduser();
+                    $('#taskForm')[0].reset();
+
+                } else {
+                    alert('Failed to create task: ' + response.message);
+                }
+            }, 'json');
+        }
+        // ui scripts
         document.addEventListener('DOMContentLoaded', function () {
             const modal = document.getElementById('assigntomodal');
             if (modal && modal.parentElement !== document.body) {
                 document.body.appendChild(modal);
             }
-
             let table;
             let taskCounter = 1;
-
             // Initialize DataTable
             if ($.fn.DataTable.isDataTable('#parentTable')) {
                 $('#parentTable').DataTable().destroy();
             }
-
             table = $('#parentTable').DataTable({
                 "pageLength": '5',  // Show 10 entries by default
                 "lengthMenu": [5, 10, 25, 50], // dropdown options
                 "searching": true,  // enable search box
-                "ordering": true,   // enable sorting
+                "ordering": false,   // enable sorting
                 "info": true
             });
-
-            // ✅ Handle form submission
-            $('#taskForm').on('submit', function (e) {
-                e.preventDefault();
-
-                let assignTo = $('#assignTo').val();
-                let title = $('#taskTitle').val();
-                let desc = $('#taskDesc').val();
-                let deadline = $('#deadline').val();
-                let assignedDate = new Date().toLocaleDateString();
-                let status = 'Pending';
-
-                // Add new row
-                table.row.add([
-                    taskCounter++,
-                    assignTo,
-                    title,
-                    desc,
-                    assignedDate,
-                    deadline,
-                    `<span class="badge bg-warning">${status}</span>`
-                ]).draw(false);
-
-                // ✅ Properly hide modal and backdrop
-                const modalElement = document.getElementById('assigntomodal');
-                let bootstrapModal = bootstrap.Modal.getInstance(modalElement);
-                if (!bootstrapModal) {
-                    bootstrapModal = new bootstrap.Modal(modalElement);
-                }
-                bootstrapModal.hide();
-
-                // Ensure backdrop is removed and page becomes active again
-                setTimeout(() => {
-                    document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-                    document.body.classList.remove('modal-open');
-                    document.body.style.overflow = 'auto';
-                    document.body.style.paddingRight = '0';
-                }, 400);
-
-                // Reset form
-                this.reset();
-
-
-
-            });
+            // Reset form
+            this.reset();
         });
-
-
-
 
     </script>
 </body>

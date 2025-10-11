@@ -520,7 +520,6 @@
                         }
                     });
             });
-
             updateSelectedDateTitle(selectedDate);
             loadTasks(selectedDate);
         });

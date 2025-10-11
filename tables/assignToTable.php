@@ -7,8 +7,8 @@
 </style>
 <div class="table-responsive">
     <table class="table table-bordered table-striped table-hover" id="parentTable">
-        <thead class="gradient-header text-black">
-            <tr>
+        <thead >
+            <tr class="assignto">
                 <th>S.No</th>
                 <th>Assign_To</th>
                 <th>Task_Title</th>
@@ -44,27 +44,67 @@
                 `
             <tr>
             <td>${user.task_id}</td>
-            <td>${user.assigned_by}</td>
+            <td>${user.name}</td>
             <td>${user.task_title}</td>
             <td>${user.task_description}</td>
             <td>${user.start_date}</td>
             <td>${user.deadline}</td>
             
-            <td class="buttonclass"><button type="button" class="btn btn-warning btn-sm">${user.status}</button><button type="button" class="btn btn-danger btn-sm" onclick="deleteUser('${user.task_id}')">Delete</button></td>
+            <td class="buttonclass"><button type="button" class="btn btn-warning btn-sm">${user.status}</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="deleteUser('${user.task_id}')">Delete</button>
+            <button type="button" class="btn btn-info btn-sm" onclick="edituser('${user.task_id}')">Edit</button>
+            </td>
             
             
             </tr>`)
         })
     }
+    //Edit assignment module
+    let edituser = (id) => {
+        let user = users.find(u => u.task_id == id);
+        if (user) {
+            $('#assignToFaculty').val(user.assigned_by);
+            $('#some').val(user.task_title);
+            $('#taskDesc').val(user.task_description);
+            $('#startdate').val(user.start_date);
+            $('#deadline').val(user.deadline);
+            $('#assigntomodal').modal('show');
+
+            // Store the task_id for update
+            window.editingTaskId = id;
+            
+        }
+    }
 
     let deleteUser = (id) => {
-        $.post('db/database.php', { action: 'delete', id: id }, function (response) {
-            if (response.success) {
-                alert('deleted Successfully');
-                loaduser();
-            } else {
-                alert('not deleted');
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post('db/database.php', { action: 'delete', id: id }, function (response) {
+                    if (response.success) {
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Task has been deleted successfully.",
+                            icon: "success"
+                        });
+                        loaduser();
+                    }
+                    else {
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Failed to delete the task.",
+                            icon: "error"
+                        });
+                    }
+                }, 'json');
             }
-        }, 'json');
+        });
     }
 </script>

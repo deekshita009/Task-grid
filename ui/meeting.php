@@ -57,7 +57,7 @@
             background: #f7f7f9;
         }
 
-        .my-meeting-module table.dataTable thead {
+        .my-meeting-module table.dataTable thead  {
             background: linear-gradient(135deg, #4CAF50, #2196F3) !important;
             color: white !important;
             text-align: center;
