@@ -7,7 +7,7 @@
 </style>
 <div class="table-responsive">
     <table class="table table-bordered table-striped table-hover" id="parentTable">
-        <thead >
+        <thead>
             <tr class="assignto">
                 <th>S.No</th>
                 <th>Assign_To</th>
@@ -63,7 +63,6 @@
     let edituser = (id) => {
         let user = users.find(u => u.task_id == id);
         if (user) {
-            $('#assignToFaculty').val(user.assigned_by);
             $('#some').val(user.task_title);
             $('#taskDesc').val(user.task_description);
             $('#startdate').val(user.start_date);
@@ -72,7 +71,9 @@
 
             // Store the task_id for update
             window.editingTaskId = id;
-            
+
+            // Store the current assigned_by name for update
+            window.currentAssignedBy = user.assigned_by;
         }
     }
 
@@ -102,6 +103,7 @@
                             text: "Failed to delete the task.",
                             icon: "error"
                         });
+                        alert(response.message);
                     }
                 }, 'json');
             }

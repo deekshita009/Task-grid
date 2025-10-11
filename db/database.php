@@ -72,13 +72,20 @@ function deleteUser($conn)
 {
     try {
 
+        // Delete from first table
+        $sqldel = "DELETE from taskassignment where task_id=?";
+        $checkdql = $conn->prepare($sqldel);
+        $checkdql->bind_param('i', $_POST['id']);
+        $checkdql->execute();
+
+        // Then delete from parent table
         $sql = "DELETE from tasks WHERE task_id=?";
         $check = $conn->prepare($sql);
         $check->bind_param('i', $_POST['id']);
         if ($check->execute()) {
             echo json_encode(['success' => true, 'message' => 'successfully Deleted']);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Not Deleted']);
+            echo json_encode(['success' => false, 'message' => 'Failed to delete task']);
         }
     } catch (exception $e) {
         echo json_encode(['success' => false, 'message' => 'Exception ']);
@@ -150,13 +157,25 @@ function createUser($conn)
 //Update function
 function updateUser($conn)
 {
-    $sql = "UPDATE tasks SET assigned_by=?, task_title=?, task_description=?, start_date=?, deadline=?, status=? WHERE task_id=?";
-    $check = $conn->prepare($sql);
-    $check->bind_param('ssssssi', $_POST['assigned_by'], $_POST['task_title'], $_POST['task_description'], $_POST['start_date'], $_POST['deadline'], $_POST['status'], $_POST['task_id']);
-    if ($check->execute()) {
-        echo json_encode(['success' => true, 'message' => 'Updated Successfully']);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Update Failed']);
+    try {
+        $sql = "UPDATE tasks SET task_title=?, task_description=?, start_date=?, deadline=?, status=? WHERE task_id=?";
+        $check = $conn->prepare($sql);
+        $check->bind_param('sssssi', $_POST['task_title'], $_POST['task_description'], $_POST['start_date'], $_POST['deadline'], $_POST['status'], $_POST['task_id']);
+        if ($check->execute()) {
+            $newtable = "UPDATE taskassignment SET parent_assig_id=null,status='pending',updated_at=NOW() WHERE task_id=?";
+            $checksqll = $conn->prepare($newtable);
+            $checksqll->bind_param('i', $_POST['task_id']);
+            if ($checksqll->execute()) {
+                echo json_encode(['success' => true, 'message' => 'Updated Successfully']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Task updated but assignment update failed']);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to update task: ' . $check->error]);
+        }
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'message' => $e]);
     }
 }
+
 ?>
