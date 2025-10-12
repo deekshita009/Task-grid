@@ -240,10 +240,8 @@
                 "ordering": false,   // enable sorting
                 "info": true
             });
-           
             this.reset();
         });
     </script>
 </body>
-
 </html>

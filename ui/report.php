@@ -57,16 +57,15 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
 
-       .demerit  {
+        .demerit {
             --bs-table-bg: transparent;
             --bs-table-color: white;
             background: linear-gradient(135deg, #4CAF50, #2196F3) !important;
-           color: inherit;
-           text-align:centre;
-           font-size:0.9em;
-           font-weight:600;
+            color: inherit;
+            text-align: centre;
+            font-size: 0.9em;
+            font-weight: 600;
         }
-
     </style>
 </head>
 
@@ -132,7 +131,7 @@
             <h5 class="fw-bold mb-3">⚠ Faculty Demerit Summary</h5>
             <div class="table-responsive">
                 <table id="demeritTable" class="table table-bordered table-striped table-hover">
-                    <thead  >
+                    <thead>
                         <tr class="demerit">
                             <th>Faculty Name</th>
                             <th>Pending Tasks</th>
@@ -169,7 +168,8 @@
 
         <!-- Insights -->
         <div class="alert alert-info mt-4">
-            <strong>Insight:</strong> Top Performer — <b id="topPerformer">-</b> with <b id="topCompletion">0%</b> completion rate.
+            <strong>Insight:</strong> Top Performer — <b id="topPerformer">-</b> with <b id="topCompletion">0%</b>
+            completion rate.
             Department overall performance is <b id="overallPerformance">0%</b>.
         </div>
 
@@ -193,41 +193,41 @@
                 pageLength: 5,
                 lengthChange: false
             });
-        
+
             function loadReportData(faculty = '', month = '') {
                 $.ajax({
-                    url: 'db/reportbackend.php',
-                    type: 'GET',
-                    data: { faculty: faculty, month: month },
+                    url: 'db/database.php',
+                    type: 'POST',
+                    data: { action: 'getReportData', faculty: faculty, month: month },
                     dataType: 'json',
                     success: function (data) {
                         console.log("Backend Data:", data);
-        
+
                         if (!data || !data.summary) {
                             alert("No data received from backend.");
                             return;
                         }
-        
+
                         const s = data.summary || {};
-        
+
                         // Summary Cards
                         $('#totalTasks').text(s.total_tasks ?? 0);
                         $('#completedTasks').text(s.completed ?? 0);
                         $('#pendingTasks').text(s.pending ?? 0);
                         $('#in-progressTasks').text(s.in_progress ?? 0);
                         $('#overdueTasks').text(s.overdue ?? 0);
-        
+
                         // Overall Performance
                         const completed = Number(s.completed ?? 0);
                         const total = Number(s.total_tasks ?? 0);
                         const overallPerf = total > 0 ? ((completed / total) * 100).toFixed(2) : '0.00';
                         $('#overallPerformance').text(overallPerf + '%');
-        
+
                         // Faculty Completion Chart
                         const facultyArr = Array.isArray(data.faculty) ? data.faculty : [];
                         const facultyNames = facultyArr.map(f => f.faculty_name || 'Unknown');
                         const completionRates = facultyArr.map(f => Number(f.completion_percentage ?? 0));
-        
+
                         let topPerformerName = '-';
                         let topRate = 0;
                         if (completionRates.length > 0) {
@@ -238,7 +238,7 @@
                         }
                         $('#topPerformer').text(topPerformerName);
                         $('#topCompletion').text(topRate + '%');
-        
+
                         if (completionChartObj) completionChartObj.destroy();
                         const ctxComp = document.getElementById('completionChart');
                         completionChartObj = new Chart(ctxComp, {
@@ -256,14 +256,14 @@
                                 scales: { y: { beginAtZero: true, max: 100 } }
                             }
                         });
-        
-                
-        
+
+
+
                         // Trend Chart (Past 6 Months)
                         const trendArr = Array.isArray(data.trend) && data.trend.length ? data.trend : [];
                         const Labels = trendArr.map(item => item.month);
                         const Values = trendArr.map(item => parseInt(item.completed_count));
-        
+
                         if (trendChartObj) trendChartObj.destroy();
                         const ctxTrend = document.getElementById('trendChart');
                         trendChartObj = new Chart(ctxTrend, {
@@ -288,7 +288,7 @@
                                 }
                             }
                         });
-        
+
                         // Demerits Table
                         demeritTable.clear();
                         const demerits = Array.isArray(data.demerits) ? data.demerits : [];
@@ -309,15 +309,17 @@
                     },
                     error: function (xhr, status, error) {
                         console.error('❌ AJAX Error:', error);
-                        console.log(xhr.responseText);
-                        alert("Failed to fetch data from backend.");
+                        console.error('Status:', status);
+                        console.error('Response Text:', xhr.responseText);
+                        console.error('Status Code:', xhr.status);
+                        alert("Failed to fetch data from backend. Check console for details.");
                     }
                 });
             }
-        
+
             // Initial Load
             loadReportData();
-        
+
             // Filter button
             $('#applyFilter').click(function () {
                 const faculty = $('#facultyFilter').val();
@@ -325,7 +327,8 @@
                 loadReportData(faculty, month);
             });
         });
-        </script>
-        
+    </script>
+
 </body>
+
 </html>

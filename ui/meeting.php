@@ -218,7 +218,7 @@
             $('#cfmOpenAddBtn').on('click', function () {
                 $('#cfmAddMeetingModal').appendTo('body').modal('show');
                 // Populate staff dropdown
-                $.getJSON('Backend/addMeeting.php', function (staffs) {
+                $.getJSON('db/database.php', function (staffs) {
                     const dropdown = $('#cfmStaffDropdown');
                     dropdown.empty();
                     dropdown.append('<option value="Everyone">Everyone</option>');
@@ -235,7 +235,7 @@
 
             // Load meetings function
             function loadMeetings() {
-                $.getJSON('Backend/addMeeting.php?fetchMeetings=1', function (meetings) {
+                $.getJSON('db/database.php?fetchMeetings=1', function (meetings) {
                     scheduledTable.clear();
                     meetings.forEach(m => {
                         scheduledTable.row.add([
@@ -246,7 +246,7 @@
                     scheduledTable.draw();
                 });
 
-                $.getJSON('Backend/requestMeeting.php?fetchRequests=1', function (response) {
+                $.getJSON('db/database.php?fetchRequests=1', function (response) {
                     requestedTable.clear();
                     if (response.success && response.data) {
                         response.data.forEach(req => {
@@ -265,7 +265,7 @@
             // Form submit handlers (delegated to document)
             $(document).on('submit', '#cfmAddMeetingForm', function (e) {
                 e.preventDefault();
-                $.post('Backend/addMeeting.php', $(this).serialize(), function (response) {
+                $.post('db/database.php', $(this).serialize(), function (response) {
                     if (response.success) {
                         Swal.fire({ icon: 'success', title: 'Meeting Scheduled', timer: 1500, showConfirmButton: false });
                         $('#cfmAddMeetingModal').modal('hide');
@@ -279,7 +279,7 @@
 
             $(document).on('submit', '#cfmRequestMeetingForm', function (e) {
                 e.preventDefault();
-                $.post('Backend/requestMeeting.php', $(this).serialize(), function (response) {
+                $.post('db/database.php', $(this).serialize(), function (response) {
                     if (response.success) {
                         Swal.fire({ icon: 'success', title: 'Request Submitted', timer: 1500, showConfirmButton: false });
                         $('#cfmRequestMeetingModal').modal('hide');
