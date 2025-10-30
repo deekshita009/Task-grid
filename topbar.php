@@ -195,7 +195,7 @@
             </a>
         </div>
     </div>
-    <span>mkce</span>
+    <span><?php echo htmlspecialchars($user_name); ?> (HOD)</span>
 </div>
 
         </div>

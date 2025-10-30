@@ -1,3 +1,15 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'HOD') {
+    header("Location: ../login.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+$user_name = $_SESSION['name'];
+$dept = $_SESSION['dept'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -95,35 +107,20 @@
             color: #224abe;
         }
 
-
-
         /* Table Styles */
-
-
-
         .gradient-header {
             --bs-table-bg: transparent;
             --bs-table-color: white;
             background: linear-gradient(135deg, #4CAF50, #2196F3) !important;
-
             text-align: center;
             font-size: 0.9em;
-
-
         }
-
 
         td {
             text-align: left;
             font-size: 0.9em;
             vertical-align: middle;
-            /* For vertical alignment */
         }
-
-
-
-
-
 
         /* Responsive Styles */
         @media (max-width: 768px) {
@@ -204,7 +201,6 @@
             padding: 20px;
         }
 
-
         /* loader */
         .loader-container {
             position: fixed;
@@ -214,7 +210,6 @@
             bottom: var(--footer-height);
             background: rgba(255, 255, 255, 0.95);
             display: flex;
-            /* Changed from 'none' to show by default */
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -276,7 +271,104 @@
         .breadcrumb-item a:hover {
             color: #224abe;
         }
+
+        .nav-tabs #dashboard-tab:hover,
+        .nav-tabs #dashboard-tab:hover span,
+        .nav-tabs #dashboard-tab:hover i {
+            background-color: blue !important;
+            color: white !important;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tabs #dashboard-tab.active,
+        .nav-tabs #dashboard-tab.active span,
+        .nav-tabs #dashboard-tab.active i {
+            background-color: blue !important;
+            color: white !important;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tabs #personal-tab:hover,
+        .nav-tabs #personal-tab:hover span,
+        .nav-tabs #personal-tab:hover i {
+            background-color: green !important;
+            color: white !important;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tabs #personal-tab.active,
+        .nav-tabs #personal-tab.active span,
+        .nav-tabs #personal-tab.active i {
+            background-color: green !important;
+            color: white !important;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tabs #assignedtome-tab:hover,
+        .nav-tabs #assignedtome-tab:hover span,
+        .nav-tabs #assignedtome-tab:hover i {
+            background-color: violet !important;
+            color: white !important;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tabs #assignedtome-tab.active,
+        .nav-tabs #assignedtome-tab.active span,
+        .nav-tabs #assignedtome-tab.active i {
+            background-color: violet !important;
+            color: white !important;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tabs #assigning-tab:hover,
+        .nav-tabs #assigning-tab:hover span,
+        .nav-tabs #assigning-tab:hover i {
+            background-color: orange !important;
+            color: white !important;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tabs #assigning-tab.active,
+        .nav-tabs #assigning-tab.active span,
+        .nav-tabs #assigning-tab.active i {
+            background-color: orange !important;
+            color: white !important;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tabs #meeting-tab:hover,
+        .nav-tabs #meeting-tab:hover span,
+        .nav-tabs #meeting-tab:hover i {
+            background-color: #ea0e0eff !important;
+            color: white !important;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tabs #meeting-tab.active,
+        .nav-tabs #meeting-tab.active span,
+        .nav-tabs #meeting-tab.active i {
+            background-color: #f01527ff !important;
+            color: white !important;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tabs #report-tab:hover,
+        .nav-tabs #report-tab:hover span,
+        .nav-tabs #report-tab:hover i {
+            background-color: grey !important;
+            color: white !important;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tabs #report-tab.active,
+        .nav-tabs #report-tab.active span,
+        .nav-tabs #report-tab.active i {
+            background-color: grey !important;
+            color: white !important;
+            letter-spacing: 0.5px;
+        }
     </style>
+
 </head>
 
 <body>
@@ -298,64 +390,70 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Research</li>
+                    <li class="breadcrumb-item active" aria-current="page"></li>
                 </ol>
             </nav>
         </div>
 
         <!-- Content Area -->
         <div class="container-fluid">
-    <div class="custom-tabs">
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab"
-                   aria-controls="dashboard" aria-selected="true">
-                    <span class="hidden-xs-down" style="font-size: 0.9em;">
-                        <i class="fas fa-book tab-icon"></i> Dashboard
-                    </span>
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="personal-tab" data-bs-toggle="tab" href="#personal" role="tab"
-                   aria-controls="personal" aria-selected="false">
-                    <span class="hidden-xs-down" style="font-size: 0.9em;">
-                        <i class="fas fa-book tab-icon"></i> Personal ToDo
-                    </span>
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="assignedtome-tab" data-bs-toggle="tab" href="#assignedtome" role="tab"
-                   aria-controls="assignedtome" aria-selected="false">
-                    <span class="hidden-xs-down" style="font-size: 0.9em;">
-                        <i class="fas fa-book tab-icon"></i> Assigned to Me
-                    </span>
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="assigning-tab" data-bs-toggle="tab" href="#assigning" role="tab"
-                   aria-controls="assigning" aria-selected="false">
-                    <span class="hidden-xs-down" style="font-size: 0.9em;">
-                        <i class="fas fa-book tab-icon"></i> Assign to Someone
-                    </span>
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="meeting-tab" data-bs-toggle="tab" href="#meeting" role="tab"
-                   aria-controls="meeting" aria-selected="false">
-                    <span class="hidden-xs-down" style="font-size: 0.9em;">
-                        <i class="fas fa-book tab-icon"></i> Meeting
-                    </span>
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="report-tab" data-bs-toggle="tab" href="#report" role="tab"
-                   aria-controls="report" aria-selected="false">
-                    <span class="hidden-xs-down" style="font-size: 0.9em;">
-                        <i class="fas fa-book tab-icon"></i> Report and Analysis
-                    </span>
-                </a>
-            </li>
-        </ul>
+            <div class="custom-tabs">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab"
+                            aria-controls="dashboard" aria-selected="true">
+                            <span class="hidden-xs-down" style="font-size: 0.9em; font-family: 'Poppins', 'Open Sans', sans-serif;
+font-weight: 600;color:blue;">
+                                <i class="fas fa-chart-bar tab-icon"></i> Dashboard
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="personal-tab" data-bs-toggle="tab" href="#personal" role="tab"
+                            aria-controls="personal" aria-selected="false">
+                            <span class="hidden-xs-down" style="font-size: 0.9em;font-family: 'Poppins', 'Open Sans', sans-serif;
+font-weight: 600;color:green;">
+                                <i class="fas fa-list-check tab-icon"></i> Personal ToDo
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="assignedtome-tab" data-bs-toggle="tab" href="#assignedtome" role="tab"
+                            aria-controls="assignedtome" aria-selected="false">
+                            <span class="hidden-xs-down" style="font-size: 0.9em;font-family: 'Poppins', 'Open Sans', sans-serif;
+font-weight: 600;color:purple;">
+                                <i class="fas fa-user-check tab-icon"></i> My Task
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="assigning-tab" data-bs-toggle="tab" href="#assigning" role="tab"
+                            aria-controls="assigning" aria-selected="false">
+                            <span class="hidden-xs-down" style="font-size: 0.9em;font-family: 'Poppins', 'Open Sans', sans-serif;
+font-weight: 600;color:orange;">
+                                <i class="fas fa-user-tag tab-icon"></i> Allocate Task
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="meeting-tab" data-bs-toggle="tab" href="#meeting" role="tab"
+                            aria-controls="meeting" aria-selected="false">
+                            <span class="hidden-xs-down" style="font-size: 0.9em;font-family: 'Poppins', 'Open Sans', sans-serif;
+font-weight: 600;color:red;">
+                                <i class="fas fa-handshake tab-icon"></i> Meeting
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="report-tab" data-bs-toggle="tab" href="#report" role="tab"
+                            aria-controls="report" aria-selected="false">
+                            <span class="hidden-xs-down" style="font-size: 0.9em;font-family: 'Poppins', 'Open Sans', sans-serif;
+font-weight: 600;color:grey;">
+                                <i class="fas fa-chart-line tab-icon"></i> Report and Analysis
+                            </span>
+                        </a>
+                    </li>
+                </ul>
 
                 <div class="tab-content">
                     <!-- Dashboard -->
@@ -366,7 +464,7 @@
 
                     <!-- Personal-->
                     <div class="tab-pane fade" id="personal" role="tabpanel" aria-labelledby="personal-tab">
-                        <?php include "ui/personalToDo.php"; ?>
+                        <?php include "ui/personal.php"; ?>
                     </div>
 
                     <!-- Assign by Me -->
