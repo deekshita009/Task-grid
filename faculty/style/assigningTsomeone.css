@@ -1,0 +1,7 @@
+.add{
+    display:flex;
+    flex-direction:row;
+    justify-content:end;
+    align-items:center; 
+    margin-right:70px;
+}
